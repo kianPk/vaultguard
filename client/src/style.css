@@ -1,0 +1,23 @@
+:root {
+  --bg: #100e0c;
+  --panel: #1a1613;
+  --line: #322a24;
+  --text: #f3ebe3;
+  --muted: #a89888;
+  --faint: #6e6258;
+  --copper: #d4a574;
+  --ok: #7dba8c;
+  --bad: #e07a6c;
+  --font: 'DM Sans', system-ui, sans-serif;
+  --display: 'Instrument Serif', Georgia, serif;
+}
+* { box-sizing: border-box; }
+html, body, #app { margin: 0; min-height: 100%; background: var(--bg); color: var(--text); font-family: var(--font); }
+body {
+  background:
+    radial-gradient(900px 480px at 15% -10%, rgba(212,165,116,.12), transparent 50%),
+    radial-gradient(700px 400px at 100% 80%, rgba(125,186,140,.06), transparent 45%),
+    var(--bg);
+}
+button, input, textarea, select { font: inherit; color: inherit; }
+button { cursor: pointer; border: none; background: none; }
