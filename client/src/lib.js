@@ -1,3 +1,39 @@
+const KEYBOARD_ROWS = ['qwertyuiop', 'asdfghjkl', 'zxcvbnm', '1234567890']
+
+const KEYBOARD_WALKS = [
+  'qwerty',
+  'asdfgh',
+  'zxcvbn',
+  '123456',
+  '654321',
+  'qazwsx',
+  '1qaz2wsx',
+  'password',
+]
+
+function hasKeyboardWalk(pw) {
+  const lower = pw.toLowerCase()
+  for (const walk of KEYBOARD_WALKS) {
+    if (lower.includes(walk)) return true
+  }
+  for (const row of KEYBOARD_ROWS) {
+    for (let i = 0; i <= row.length - 4; i++) {
+      const seq = row.slice(i, i + 4)
+      if (lower.includes(seq) || lower.includes(seq.split('').reverse().join(''))) return true
+    }
+  }
+  return false
+}
+
+function hasRepeatSequence(pw) {
+  if (/(.)\1{2,}/.test(pw)) return true
+  for (let len = 2; len <= 4; len++) {
+    const re = new RegExp(`(.{${len}})\\1+`)
+    if (re.test(pw)) return true
+  }
+  return false
+}
+
 const COMMON = new Set([
   'password',
   '123456',
@@ -20,6 +56,8 @@ export function scorePassword(pw) {
     digit: /\d/.test(pw),
     symbol: /[^A-Za-z0-9]/.test(pw),
     notCommon: !COMMON.has(pw.toLowerCase()),
+    noRepeatSeq: !hasRepeatSequence(pw),
+    noKeyboardWalk: !hasKeyboardWalk(pw),
   }
   let score = 0
   if (checks.length8) score += 15
@@ -29,7 +67,8 @@ export function scorePassword(pw) {
   if (checks.digit) score += 15
   if (checks.symbol) score += 15
   if (checks.notCommon) score += 10
-  if (/(.)\1{2,}/.test(pw)) score -= 10
+  if (!checks.noRepeatSeq) score -= 15
+  if (!checks.noKeyboardWalk) score -= 18
   if (/^[0-9]+$/.test(pw)) score -= 20
   score = Math.max(0, Math.min(100, score))
   const label = score >= 80 ? 'strong' : score >= 55 ? 'fair' : score >= 30 ? 'weak' : 'critical'

@@ -12,6 +12,7 @@ Vue 3 · Vite · Express · Zod · Web Crypto
 
 - JWT tool **decodes only** — it does not verify signatures.
 - Secret scan looks for common *shapes* (AWS key id pattern, JWT, PEM headers, etc.) for redaction hygiene.
+- Password scoring flags **repeat sequences** (e.g. `abcabc`, `aaa`) and **keyboard walks** (`qwerty`, row fragments like `asdf`) in the breakdown checks.
 - Never paste real production secrets into public demos.
 
 ## Run
